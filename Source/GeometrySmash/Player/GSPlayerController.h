@@ -14,4 +14,8 @@ class GEOMETRYSMASH_API AGSPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 };

@@ -51,7 +51,7 @@ protected:
 	UFUNCTION()
 	virtual void OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	void SetColor(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense);
+	void SetupColor(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense);
 
 private:
 	void MoveForward(float Amount);

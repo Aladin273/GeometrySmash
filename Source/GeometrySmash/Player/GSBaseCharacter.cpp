@@ -28,7 +28,7 @@ void AGSBaseCharacter::BeginPlay()
 	StaticMeshComponent->OnComponentHit.AddDynamic(this, &AGSBaseCharacter::OnHit);
 	StaticMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &AGSBaseCharacter::OnOverlap);
 
-	SetColor(BaseColor, EmissionColor, EmissionIntense);
+	SetupColor(BaseColor, EmissionColor, EmissionIntense);
 }
 
 void AGSBaseCharacter::Tick(float DeltaTime)
@@ -51,20 +51,18 @@ void AGSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AGSBaseCharacter::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%s Hit"), *GetName()));
+
 }
 
 void AGSBaseCharacter::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%s Overlap"), *GetName()));
-
 	AGSAICharacter* TargetActor = Cast<AGSAICharacter>(OtherActor);
 
 	if (TargetActor)
-		TargetActor->Mark(BaseColor, EmissionColor, EmissionIntense);
+		TargetActor->Mark(this, BaseColor, EmissionColor, EmissionIntense);
 }
 
-void AGSBaseCharacter::SetColor(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense)
+void AGSBaseCharacter::SetupColor(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense)
 {
 	UMaterialInstanceDynamic* MaterialInstance = StaticMeshComponent->CreateAndSetMaterialInstanceDynamic(0);
 

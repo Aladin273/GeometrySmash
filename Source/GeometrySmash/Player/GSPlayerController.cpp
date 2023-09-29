@@ -3,3 +3,12 @@
 
 #include "GSPlayerController.h"
 
+void AGSPlayerController::BeginPlay()
+{
+
+}
+
+void AGSPlayerController::Tick(float DeltaTime)
+{
+
+}

@@ -15,4 +15,10 @@ class GEOMETRYSMASH_API AGSGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	AGSGameModeBase();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	int32 Marked = 0;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	int32 Cleaners = 6;
 };

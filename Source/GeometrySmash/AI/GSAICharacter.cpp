@@ -4,20 +4,35 @@
 #include "GSAICharacter.h"
 #include "GSAIClearCharacter.h"
 
-void AGSAICharacter::Mark(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense)
-{
-	bMarked = true;
-	MarkBaseColor = InBaseColor;
-	MarkEmissionColor = InEmissionColor;
-	MarkEmissionIntense = InEmissionIntense;
+#include "../GSGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
-	SetColor(MarkBaseColor, MarkEmissionColor, MarkEmissionIntense);
+void AGSAICharacter::Mark(AActor* InActor, FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense)
+{
+	if (!bMarked)
+	{
+		AGSGameModeBase* GameMode = Cast<AGSGameModeBase>(UGameplayStatics::GetGameMode(this));
+		GameMode->Marked++;
+
+		bMarked = true;
+		MarkBaseColor = InBaseColor;
+		MarkEmissionColor = InEmissionColor;
+		MarkEmissionIntense = InEmissionIntense;
+
+		SetupColor(MarkBaseColor, MarkEmissionColor, MarkEmissionIntense);
+	}
 }
 
 void AGSAICharacter::Clear()
 {
-	bMarked = false;
-	SetColor(BaseColor, EmissionColor, EmissionIntense);
+	if (bMarked)
+	{
+		AGSGameModeBase* GameMode = Cast<AGSGameModeBase>(UGameplayStatics::GetGameMode(this));
+		GameMode->Marked--;
+
+		bMarked = false;
+		SetupColor(BaseColor, EmissionColor, EmissionIntense);
+	}
 }
 
 void AGSAICharacter::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -31,7 +46,7 @@ void AGSAICharacter::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* Othe
 	{
 		AGSAICharacter* TargetActor = Cast<AGSAICharacter>(OtherActor);
 
-		if (TargetActor && Cast<AGSAIClearCharacter>(OtherActor) == false)
-			TargetActor->Mark(MarkBaseColor, MarkEmissionColor, MarkEmissionIntense);
+		if (TargetActor)
+			TargetActor->Mark(this, MarkBaseColor, MarkEmissionColor, MarkEmissionIntense);
 	}
 }

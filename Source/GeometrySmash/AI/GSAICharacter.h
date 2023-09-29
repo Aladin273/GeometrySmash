@@ -15,8 +15,8 @@ class GEOMETRYSMASH_API AGSAICharacter : public AGSBaseCharacter
 	GENERATED_BODY()
 
 public:
-	void Mark(FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense);
-	void Clear();
+	virtual void Mark(AActor* InActor, FLinearColor InBaseColor, FLinearColor InEmissionColor, float InEmissionIntense);
+	virtual void Clear();
 
 protected:
 	virtual void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;

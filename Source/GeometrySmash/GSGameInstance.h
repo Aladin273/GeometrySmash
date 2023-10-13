@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "GSGameUserSettings.h"
+#include "Kismet/GameplayStatics.h"
 #include "GSGameInstance.generated.h"
 
 class AGSBaseCharacter;
@@ -17,19 +18,38 @@ class GEOMETRYSMASH_API UGSGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
-public:
-	void Init() override
+protected:
+	void OnStart() override
 	{
-		Super::Init();
+		Super::OnStart();
 
 		UGSGameUserSettings::GetBetterGameUserSettings()->LoadSettings();
 
-		if (UGSGameUserSettings::GetBetterGameUserSettings()->GetOverallScalabilityLevel() == -1)
+		if (UGSGameUserSettings::GetBetterGameUserSettings()->GetFirstLaunch())
+		{
 			UGSGameUserSettings::GetBetterGameUserSettings()->SetOverallScalabilityLevel(3);
+			UGSGameUserSettings::GetBetterGameUserSettings()->SetMusicVolume(0.75f);
+			UGSGameUserSettings::GetBetterGameUserSettings()->SetSFXVolume(0.75f);
+			UGSGameUserSettings::GetBetterGameUserSettings()->SetFirstLaunch(false);
+		}
+
+		UGameplayStatics::SetBaseSoundMix(this, Master);
+		UGameplayStatics::SetSoundMixClassOverride(this, Master, Music, UGSGameUserSettings::GetBetterGameUserSettings()->GetMusicVolume(), 1.0f, 0.0f);
+		UGameplayStatics::SetSoundMixClassOverride(this, Master, SFX, UGSGameUserSettings::GetBetterGameUserSettings()->GetSFXVolume(), 1.0f, 0.0f);
 
 		UGSGameUserSettings::GetBetterGameUserSettings()->ApplySettings(false);
 	}
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundMix* Master;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundClass* Music;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundClass* SFX;
+
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AGSBaseCharacter> Blank;
 

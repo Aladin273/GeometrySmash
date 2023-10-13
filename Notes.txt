@@ -1,4 +1,4 @@
 Geometry Smash
 --------------------------------------------------------------------
-Meme, Jump, Sound, Hover, Tips, Win, Lose, Timer, Blueprint, C++
-Character Falling, FloatingPawnMovement, Physics, Template, Settings
+Meme, Jump, Tips, Win, Lose, Timer, Blueprint, C++
+Character Falling, FloatingPawnMovement, Physics, Template

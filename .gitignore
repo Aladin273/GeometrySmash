@@ -38,6 +38,7 @@
 ### UnrealEngine ###
 # Visual Studio 2015 user specific files
 .vs/
+*.vsconfig
 
 # Compiled Object files
 
@@ -505,3 +506,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,unrealengine,visualstudio
+
+./Packages

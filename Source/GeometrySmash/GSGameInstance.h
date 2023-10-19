@@ -33,11 +33,11 @@ protected:
 			UGSGameUserSettings::GetBetterGameUserSettings()->SetFirstLaunch(false);
 		}
 
+		UGSGameUserSettings::GetBetterGameUserSettings()->ApplySettings(false);
+
 		UGameplayStatics::SetBaseSoundMix(this, Master);
 		UGameplayStatics::SetSoundMixClassOverride(this, Master, Music, UGSGameUserSettings::GetBetterGameUserSettings()->GetMusicVolume(), 1.0f, 0.0f);
 		UGameplayStatics::SetSoundMixClassOverride(this, Master, SFX, UGSGameUserSettings::GetBetterGameUserSettings()->GetSFXVolume(), 1.0f, 0.0f);
-
-		UGSGameUserSettings::GetBetterGameUserSettings()->ApplySettings(false);
 	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
